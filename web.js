@@ -1528,13 +1528,13 @@ function renderSubs() {
     const tgl = new Date(s.addedAt).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
     const col = katColors[s.kategori] || 'var(--muted)';
     const cleanJid = s.jid.replace('@s.whatsapp.net','');
-    return `<tr>
+    return \`<tr>
       <td><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--cyan)">${cleanJid}</span></td>
       <td class="fw5">${esc(s.name)}</td>
       <td><span class="kat-tag" style="border-color:${col};color:${col}">${esc(s.kategori)}</span></td>
       <td class="fz12 text-muted2">${tgl}</td>
       <td><button class="del-lap-btn" onclick="removeSub('${esc(s.jid)}',this)">🗑️</button></td>
-    </tr>`;
+    </tr>\`;
   }).join('');
 }
 async function addSubscriber() {
@@ -1572,20 +1572,20 @@ function renderPolls() {
     const opsiBar = p.opsi.map((o,i) => {
       const cnt = p.answers.filter(a => a.opsiIdx === i).length;
       const pct = total ? Math.round(cnt/total*100) : 0;
-      return `<div style="margin-bottom:8px">
+      return \`<div style="margin-bottom:8px">
         <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${esc(o)}</span><span style="color:var(--cyan);font-weight:700">${cnt} (${pct}%)</span></div>
         <div style="background:var(--bg3);border-radius:4px;height:6px"><div style="background:linear-gradient(90deg,var(--cyan),var(--green));width:${pct}%;height:100%;border-radius:4px"></div></div>
-      </div>`;
+      </div>\`;
     }).join('');
     const statusBadge = p.status === 'active'
       ? '<span style="color:var(--green);font-size:11px;font-weight:700">● AKTIF</span>'
       : '<span style="color:var(--muted);font-size:11px">○ Ditutup</span>';
     const tgl = new Date(p.createdAt).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
-    return `<div class="tc" style="margin-bottom:14px">
+    return \`<div class="tc" style="margin-bottom:14px">
       <div class="tc-head">
         <div class="tc-head-l"><div class="tc-name">${esc(p.judul)}</div>${statusBadge}</div>
         <div style="display:flex;gap:8px">
-          ${p.status==='active' ? `<button onclick="closePoll('${p.id}')" style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:var(--amber);border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer">⏹ Tutup</button>` : ''}
+          ${p.status==='active' ? \`<button onclick="closePoll('${p.id}')" style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:var(--amber);border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer">⏹ Tutup</button>\` : ''}
           <button onclick="deletePoll('${p.id}')" style="background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.2);color:var(--red);border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer">🗑️ Hapus</button>
         </div>
       </div>
@@ -1594,14 +1594,14 @@ function renderPolls() {
         <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Dibuat: ${tgl} · Target: ${esc(p.targetKategori)} · ${total} jawaban</div>
         ${opsiBar}
       </div>
-    </div>`;
+    </div>\`;
   }).join('');
 }
 function populatePollSelect() {
   const sel = document.getElementById('bc-poll-sel');
   if (!sel) return;
   const active = _polls.filter(p => p.status === 'active');
-  sel.innerHTML = '<option value="">-- Pilih polling aktif --</option>' + active.map(p => `<option value="${p.id}">${esc(p.judul)}</option>`).join('');
+  sel.innerHTML = '<option value="">-- Pilih polling aktif --</option>' + active.map(p => \`<option value="${p.id}">${esc(p.judul)}</option>\`).join('');
 }
 async function createPoll() {
   const judul = document.getElementById('poll-judul').value.trim();
@@ -1632,7 +1632,7 @@ async function sendBroadcast() {
   const text = document.getElementById('bc-text').value.trim();
   const targetKategori = document.getElementById('bc-kat').value;
   if (!text) { alert('Pesan tidak boleh kosong'); return; }
-  if (!confirm(`Kirim broadcast ke "${targetKategori}"?\n\n${text.substring(0,100)}${text.length>100?'...':''}`)) return;
+  if (!confirm(\`Kirim broadcast ke "${targetKategori}"?\n\n${text.substring(0,100)}${text.length>100?'...':''}\`)) return;
   const r = await fetch('/api/broadcast',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,targetKategori,type:'text'})});
   const j = await r.json();
   if (j.ok) { alert('✅ Broadcast dijadwalkan!'); document.getElementById('bc-text').value=''; }
@@ -1644,8 +1644,8 @@ async function sendPollBroadcast() {
   if (!pollId) { alert('Pilih polling terlebih dahulu'); return; }
   const poll = _polls.find(p => p.id === pollId);
   if (!poll) return;
-  const text = `📊 *${poll.judul}*\n━━━━━━━━━━━━━━━━━━━━━━━\n\n❓ ${poll.pertanyaan}\n\n${poll.opsi.map((o,i)=>`${i+1}. ${o}`).join('\n')}\n\n━━━━━━━━━━━━━━━━━━━━━━━\nKetik angka *1-${poll.opsi.length}* untuk menjawab, atau *0* untuk lewati.\n🏙️ #MEDANUNTUKSEMUA`;
-  if (!confirm(`Broadcast polling "${poll.judul}" ke "${targetKategori}"?`)) return;
+  const text = \`📊 *${poll.judul}*\n━━━━━━━━━━━━━━━━━━━━━━━\n\n❓ ${poll.pertanyaan}\n\n${poll.opsi.map((o,i)=>\`${i+1}. ${o}\`).join('\n')}\n\n━━━━━━━━━━━━━━━━━━━━━━━\nKetik angka *1-${poll.opsi.length}* untuk menjawab, atau *0* untuk lewati.\n🏙️ #MEDANUNTUKSEMUA\`;
+  if (!confirm(\`Broadcast polling "${poll.judul}" ke "${targetKategori}"?\`)) return;
   const r = await fetch('/api/broadcast',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,targetKategori,type:'poll',pollId})});
   const j = await r.json();
   if (j.ok) alert('✅ Polling dijadwalkan untuk dikirim!');
@@ -1672,12 +1672,12 @@ async function loadRatings() {
     const stars = '⭐'.repeat(rt.score||0);
     const tgl = new Date(rt.createdAt).toLocaleString('id-ID',{timeZone:'Asia/Jakarta',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
     const col = colorMap[rt.score]||'var(--muted)';
-    return `<tr>
+    return \`<tr>
       <td class="fw5">${esc(rt.name)}<div class="fz12 text-muted2">${esc((rt.jid||'').replace('@s.whatsapp.net',''))}</div></td>
       <td><span style="color:${col}">${stars}</span> <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:${col}">${rt.score}/5</span></td>
       <td style="max-width:260px;color:var(--text2);font-size:13px">${rt.komentar ? esc(rt.komentar) : '<span style="color:var(--muted);font-style:italic">Tidak ada komentar</span>'}</td>
       <td class="fz12 text-muted2">${tgl}</td>
-    </tr>`;
+    </tr>\`;
   }).join('');
 }
 
@@ -1719,7 +1719,7 @@ function renderHeatmap() {
   const catEmoji={'Sampah Liar':'🗑️','Gangguan Ketertiban':'⚠️','Lampu Jalan Mati':'💡','Drainase Tersumbat':'🌊','Administrasi Pelayanan':'📋','Bangunan Liar':'🏚️','Lainnya':'📌'};
   filtered.forEach(p=>{
     const m=L.circleMarker([p.lat,p.lon],{radius:6,color:'#ff4d6d',fillColor:'#ff4d6d',fillOpacity:0.75,weight:1.5})
-      .bindPopup(`<b>#${String(p.id||0).padStart(4,'0')}</b><br>${catEmoji[p.kategori]||'📍'} ${p.kategori}<br>📍 ${p.kelurahan}`);
+      .bindPopup(\`<b>#${String(p.id||0).padStart(4,'0')}</b><br>${catEmoji[p.kategori]||'📍'} ${p.kategori}<br>📍 ${p.kelurahan}\`);
     m.addTo(_hmMap);_hmMarkers.push(m);
   });
 }
@@ -1728,15 +1728,15 @@ function renderHeatmapStats(data) {
   data.forEach(p=>{katC[p.kategori]=(katC[p.kategori]||0)+1;kelC[p.kelurahan]=(kelC[p.kelurahan]||0)+1;});
   const maxKat=Math.max(1,...Object.values(katC));
   const maxKel=Math.max(1,...Object.values(kelC));
-  const bar=(v,max,grad)=>`<div style="background:var(--bg3);border-radius:3px;height:4px"><div style="background:${grad};width:${Math.round(v/max*100)}%;height:100%;border-radius:3px"></div></div>`;
+  const bar=(v,max,grad)=>\`<div style="background:var(--bg3);border-radius:3px;height:4px"><div style="background:${grad};width:${Math.round(v/max*100)}%;height:100%;border-radius:3px"></div></div>\`;
   const mk=document.getElementById('hm-stat-kat');
   const ml=document.getElementById('hm-stat-kel');
-  if(mk)mk.innerHTML=Object.entries(katC).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`
+  if(mk)mk.innerHTML=Object.entries(katC).sort((a,b)=>b[1]-a[1]).map(([k,v])=>\`
     <div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px">
-      <span style="color:var(--text2)">${esc(k)}</span><span style="color:var(--cyan);font-weight:700">${v}</span></div>${bar(v,maxKat,'linear-gradient(90deg,var(--cyan),var(--green))')}</div>`).join('');
-  if(ml)ml.innerHTML=Object.entries(kelC).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`
+      <span style="color:var(--text2)">${esc(k)}</span><span style="color:var(--cyan);font-weight:700">${v}</span></div>${bar(v,maxKat,'linear-gradient(90deg,var(--cyan),var(--green))')}</div>\`).join('');
+  if(ml)ml.innerHTML=Object.entries(kelC).sort((a,b)=>b[1]-a[1]).map(([k,v])=>\`
     <div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px">
-      <span style="color:var(--text2)">${esc(k)}</span><span style="color:var(--amber);font-weight:700">${v}</span></div>${bar(v,maxKel,'linear-gradient(90deg,var(--amber),var(--red))')}</div>`).join('');
+      <span style="color:var(--text2)">${esc(k)}</span><span style="color:var(--amber);font-weight:700">${v}</span></div>${bar(v,maxKel,'linear-gradient(90deg,var(--amber),var(--red))')}</div>\`).join('');
 }
 
 // ══════════════════════════════════════════════
