@@ -1585,8 +1585,8 @@ function renderPolls() {
       '<div class="tc-head">' +
         '<div class="tc-head-l"><div class="tc-name">' + esc(p.judul) + '</div>' + statusBadge + '</div>' +
         '<div style="display:flex;gap:8px">' +
-          (p.status==='active' ? '<button onclick="closePoll(\'' + p.id + '\')" style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:var(--amber);border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer">⏹ Tutup</button>' : '') +
-          '<button onclick="deletePoll(\'' + p.id + '\')" style="background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.2);color:var(--red);border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer">🗑️ Hapus</button>' +
+          (p.status==='active' ? '<button onclick="closePoll(\'' + p.id + '\'" style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:var(--amber);border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer">⏹ Tutup</button>' : '') +
+          '<button onclick="deletePoll(\'' + p.id + '\'" style="background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.2);color:var(--red);border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer">🗑️ Hapus</button>' +
         '</div>' +
       '</div>' +
       '<div style="padding:16px 22px">' +
@@ -1739,8 +1739,6 @@ function renderHeatmapStats(data) {
     '<div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px">' +
       '<span style="color:var(--text2)">' + esc(k) + '</span><span style="color:var(--amber);font-weight:700">' + v + '</span></div>' + bar(v,maxKel,'linear-gradient(90deg,var(--amber),var(--red))') + '</div>'
   ).join('');
-}
-
 // ══════════════════════════════════════════════
 //   UPDATE STATUS LAPORAN
 // ══════════════════════════════════════════════
