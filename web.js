@@ -1239,7 +1239,7 @@ function renderSessions(sessions) {
     const closedCls = s.status==='closed' ? 'closed' : '';
     const unreadHtml = s.status==='active' && s.unread > 0
       ? '<span class="lc-unread">' + s.unread + '</span>' : '';
-    return '<div class="lc-item ' + active + ' ' + closedCls + '" onclick="openChat(\'' + s.id + '\')">' +
+    return '<div class="lc-item ' + active + ' ' + closedCls + '" onclick="openChat(\'' + s.id + '\'">' +
       '<div class="lc-avatar">' + initials + '</div>' +
       '<div class="lc-meta">' +
         '<div class="lc-name">' + esc(s.name) + ' ' + unreadHtml + '</div>' +
